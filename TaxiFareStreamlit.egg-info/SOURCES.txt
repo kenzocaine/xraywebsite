@@ -1,0 +1,8 @@
+MANIFEST.in
+requirements.txt
+setup.py
+TaxiFareStreamlit.egg-info/PKG-INFO
+TaxiFareStreamlit.egg-info/SOURCES.txt
+TaxiFareStreamlit.egg-info/dependency_links.txt
+TaxiFareStreamlit.egg-info/requires.txt
+TaxiFareStreamlit.egg-info/top_level.txt
