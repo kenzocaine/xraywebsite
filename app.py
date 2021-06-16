@@ -11,6 +11,7 @@ st.markdown('''
 ''')
 
 SERVER_URL = 'https://xray-vx3dknw5ea-ew.a.run.app'
+LOCAL_URL = 'http://127.0.0.1:8000'
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
@@ -18,10 +19,10 @@ uploaded_file = st.file_uploader("Choose an X-ray image", type="png")
 
 if uploaded_file is not None:
     files = {"file": (uploaded_file.name, uploaded_file, "multipart/form-data")}
-    response = requests.post(url=f"{SERVER_URL}/predict/", files=files).json()
+    response = requests.post(url=f"{LOCAL_URL}/predict/", files=files).json()
     image = Image.open(uploaded_file)
     img_array = np.array(image)
-    if int(list(response.values())[0][2]) == 1:
+    if float(list(response.values())[0]) >= 0.5:
         diagnosis = 'dying'
     else:
         diagnosis = 'healthy'
