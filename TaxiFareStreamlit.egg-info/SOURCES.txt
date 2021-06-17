@@ -1,6 +1,11 @@
+.app.py.swp
 MANIFEST.in
+Makefile
+Procfile
+app.py
 requirements.txt
 setup.py
+setup.sh
 TaxiFareStreamlit.egg-info/PKG-INFO
 TaxiFareStreamlit.egg-info/SOURCES.txt
 TaxiFareStreamlit.egg-info/dependency_links.txt

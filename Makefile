@@ -10,6 +10,7 @@ install_requirements:
 #         HEROKU COMMANDS
 # ----------------------------------
 
+APP_NAME = automated-tb-diagnostics
 streamlit:
 	-@streamlit run app.py
 

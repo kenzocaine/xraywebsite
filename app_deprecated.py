@@ -8,8 +8,9 @@ import io
 st.markdown('''
             # Automated lung X-ray diagnosis 
 
-            *Welcome to the automated X-ray diagnosis. Please upload an X-ray image in .png format and it will predict for you
-            if you have tuberculosis or not.* 
+            Welcome to the automated X-ray diagnosis. Please upload a X-ray image in png format and it will predict for you
+            if you have tuberculosis or not. Our state of the art model will give you an accurate diagnosis
+            of 100% chance of tuberculosis, even if you uploaded an image of your cat. 
 ''')
 SERVER_URL = 'https://automated-tb-diagnostics-vx3dknw5ea-lz.a.run.app' 
 #SERVER_URL = 'https://xray-vx3dknw5ea-ew.a.run.app'
@@ -22,12 +23,6 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 left_column, right_column = st.beta_columns(2)
 uploaded_file = st.file_uploader("Choose an X-ray image", type="png")
 
-st.markdown("<h1 style='font-size: 18px ;text-align: center;'>DISCLAIMER:</h1>", unsafe_allow_html=True)
-st.markdown('1. We are **not** doctors/medical professionals.')
-st.markdown('2. Our model is **not** quite state-of-the-art.')
-st.markdown('3. DO NOT EVER construe our predictions as medical advice.')
-st.markdown('4. If you suspect you may have TB, consult official public-health agencies and follow best practices advised therin.')
-st.markdown('5. Even though this project is awesome-ish, it is purely for demonstrative and exploratory purposes.')
 
 if uploaded_file is not None:
     files = {"file": (uploaded_file.name, uploaded_file, "multipart/form-data")}
@@ -42,7 +37,7 @@ if uploaded_file is not None:
     print('Response 1')
 
     image = Image.open(uploaded_file)
-    img_array =np.array(image)
+    img_array =255- np.array(image)
     print(img_array)
 
     uploaded_file = open('out.png', 'rb')
@@ -54,16 +49,15 @@ if uploaded_file is not None:
     image_seg = Image.open(img)
     img_array_seg = np.array(image_seg)
     prediction = float(list(response.values())[0])
-    chance = round(float(list(response.values())[0]) * 100, 2)
-    if prediction >= 0.3:
+
+    if prediction >= 0.5:
         diagnosis = 'dying'
     else:
         diagnosis = 'healthy'
     with left_column:
-        st.text(" \n")
         st.image(
             img_array,
-            caption=f"Your uploaded X-ray",
+            caption=f"Probability TB is {prediction}.Your lungs looks like they are {diagnosis}",
             use_column_width=True,
         )
         st.image(
@@ -73,12 +67,7 @@ if uploaded_file is not None:
         )
 
     with right_column:
-        if diagnosis == 'dying':
-            st.markdown(f"<h1 style='color: red; font-size: 25px;'>Unfortunately, according to our model, there is a probability of {chance} % that you have tuberculosis.</h1>", unsafe_allow_html=True)
-            st.markdown("1. <h1 style='font-size: 15px;'> If you are located in the USA, please check out financing options in <a href=https://www.gofundme.com/>Gofundme</a></h1>", unsafe_allow_html=True) 
-            st.markdown("2. <h1 style='font-size: 15px;'> If you are located in Sweden, please check out cheap flights to Poland in <a href=https://www.skyscanner.se//>Skyscanner</a></h1>", unsafe_allow_html=True) 
-        else:
-            st.markdown("<h1 style='color: green; font-size:25px;'>According to our model, you do NOT have tuberculosis.</h1>", unsafe_allow_html=True)
+        st.markdown(f'You probability of TB is {prediction}')
 
 
 
